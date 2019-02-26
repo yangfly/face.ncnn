@@ -18,7 +18,7 @@
 - ncnn最新的3.14版本；
 - 增加可调参数设置接口及界面,方便测试；
 
-![image](https://github.com/moli232777144/mtcnn_ncnn/tree/master/mtcnn_AS/result.png)
+![image](mtcnn_AS/result.png)
 
 附录：MTCNN的ARM端时间测试
 （1000次测试图640*480最小人脸40三层网络阈值｛0.8，0.8，0.6｝）
@@ -70,7 +70,7 @@ ps：速度测试波动存在一定误差，欢迎issus里提交测试结果；
 1. 下载源码并更新子模块,protobuf源码库比较大，更新会比较慢
 
 ```
-git clone https://github.com/moli232777144/mtcnn_ncnn.git
+git clone https://github.com/yangfly/face.ncnn.git
 git submodule update --init
 ```
 
@@ -270,3 +270,8 @@ ps:android6.0以上机型，部分会出现模型读写到sd卡因权限失败�
 ---|---
 squeezenet（原始例子）| 121ms
 mtcnn（最小人脸40）| 47ms
+
+# 参考和感谢
+
+[mtcnn_ncnn](https://github.com/moli232777144/mtcnn_ncnn) by @moli232777144
+[ncnn](https://github.com/Tencent/ncnn) by @Tencent
