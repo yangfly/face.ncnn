@@ -10,10 +10,6 @@
 - vs2017
 - android studio
 
-## 前期准备
-
-使用 windows 的 pc 端调试，繁琐的是依赖库的生成和引用。依赖库中 Protobuf 是 caffe 的模型序列化存储的规则库，将 caffe 框架转 ncnn 框架模型用到，另外 opencv 库主要用于范例的图像读取操作，可自己配置，或直接使用个人在 3rdparty 文件夹下编译好的库；
-
 ### 1. 下载源码
 
 下载源码并更新子模块, protobuf 源码库比较大，更新会比较慢
@@ -24,24 +20,27 @@ git clone https://github.com/yangfly/face.ncnn.git --recursive
 
 如果你在 clone 时忘记加 `--recursive`, 可以使用 `git submodule update --init` 更新子模块
 
-### 2. 编译 protobuf
+### 2. 编译三方库
 
-- 双击 tools 下的 protobuf.bat 脚本在 3rdparty/src/protobuf/cmake/build 下生成 protobuf.sln 工程;
-- 使用 VS2017 打开 protobuf.sln 工程，右键 `ALL_BUILD` 生成 Debug X64 及 Release X64 版本；
-- 双击 tools 下的 copyProtobuf.bat 脚本，拷贝 protobuf 的依赖库到第三方公共文件夹 3rdparty 下。
+- protobuf: 用于 caffe2ncnn.exe 转模型过程中用于解析 caffe 模型;
+- ncnn: 用于高效的模型推理库;
+- opencv: 用于 demo 中图片读写和结果可视化。
 
-### 3. 编译 ncnn
+因为代码中已经包含了编译好的 opencv 库，所以接下来只需要编译 protobuf 和 ncnn，为了避免繁琐笨重的 Visual Studio 编译，我们选择 cmake + nmake 来从命令行自动连续构建 protobuf 和 ncnn。
 
-- 双击 tools 下的 ncnn.bat 脚本在 3rdparty/src/ncnn/build 下生成 ncnn.sln 工程;
-- 使用 VS2017 打开 ncnn.sln 工程，右键 `install` 安装 Release X64 版本；
-- 双击 tools 下的 copyNcnn.bat 脚本，拷贝 ncnn 的依赖库到第三方公共文件夹 3rdparty 下。
+操作步骤如下：
 
-build 目录下生成的 src 中包含 ncnn.lib 库，tools 里有 caffe 以及 mxnet 的转换工具；
-copyNcnn.bat 脚本主要拷贝了 caffe2ncnn 的 exe 文件，ncnn 的 lib 库及 .h 头文件；
+1. 打开 VS 命令行窗口，注意不可以用普通命令行窗口，VS2015 也可以找到相应入口
+   `Start` → `Programs` → `Visual Studio 2017` → `Visual Studio Tools` → `x64 Native Tools Command Prompt for VS 2017`；
+2. 在命令行进入 `3rdparty` 目录，执行编译脚本，`build.bat` 在不带参数情况下，默认为 `Release,Debug` 模式，可以只构建 `Release` 版本以节省编译时间。
+```
+cd <path_to_face.ncnn>/3rdparty
+build.bat [Release,Debug  Release  Debug]
+```
 
-## 测试算法
+## 编译 mtcnn
 
-- [mtcnn](mtcnn/README.md)
+- [编译测试 mtcnn](mtcnn/README.md)
 
 ## 参考和感谢
 

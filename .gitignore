@@ -2,14 +2,10 @@
 .vscode
 
 # 3rdparty
-3rdparty/src/*
-3rdparty/bin/*.exe
+Debug
+Release
 3rdparty/include/google
 3rdparty/include/ncnn
-3rdparty/lib/Debug
-3rdparty/lib/Release
-3rdparty/lib/libprotobuf*
-3rdparty/lib/ncnn*
 
-# vs2017
-VS2017
+# mtcnn
+build

@@ -7,7 +7,9 @@
 在进行算法测试之前，请先按照 **[说明](../README.md)** 编译 protobuf 和 ncnn 三方库。
 
 
-## 转换 MTCNN 模型
+## 转换 MTCNN 模型 (可选)
+
+**mtcnn/models 下已默认提供了转换好的模型。**
 
 MTCNN 官方模型使用 Caffe 的 Mablab 接口训练的，是列优先 (col-major) 模型，与 ncnn 默认的行优先 (row-major) 模型格式不匹配，因此需要进行格式转换。我们在 models 目录下提供了转换后的行优先模型。ncnn 的模型转换方法是：
 
@@ -17,7 +19,7 @@ caffe2ncnn.exe xx.prototxt xx.caffemodel xx.param xx.bin
 
 因此可以方便地双击 tools 下的 caffe2ncnn.bat 脚本，一次性转换 [Mtcnnv2](https://github.com/kpzhang93/MTCNN_face_detection_alignment/tree/master/code/codes/MTCNNv2/model) 的四个模型。
 
-> 参考 [ElegantGod的ncnn](https://github.com/ElegantGod/ncnn) 的 ncnn 改进，提取了其中转化准则文件，放 tools 目录下的 caffe2ncnn.cpp 文件，接着替换 ncnn 的 tools/caffe 同文件，重新生成 caffe2ncnn.exe，并依次执行一次以上模型转换步骤。（ps: **mtcnn/models 下提供的是已经转换好的模型**）
+> 参考 [ElegantGod的ncnn](https://github.com/ElegantGod/ncnn) 的 ncnn 改进，提取了其中转化准则文件，放 tools 目录下的 caffe2ncnn.cpp 文件，接着替换 ncnn 的 tools/caffe 同文件，重新生成 caffe2ncnn.exe，并依次执行一次以上模型转换步骤。
 
 ## 编译 MTCNN
 

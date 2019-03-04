@@ -48,7 +48,7 @@ Mat imdraw(const Mat im, const vector<BBox> & bboxes)
 
 void demo() {
   Mtcnn mtcnn("../models");
-  Mat im = imread("../../sample.jpg");
+  Mat im = imread("../sample.jpg");
   ncnn::Mat image = ncnn::Mat::from_pixels(im.data, ncnn::Mat::PIXEL_BGR2RGB, im.cols, im.rows);
   vector<BBox> bboxes = mtcnn.Detect(image);
   Mat canvas = imdraw(im, bboxes);
@@ -58,7 +58,7 @@ void demo() {
 
 void performance(bool lnet = true, int ntimes = 50) {
   Mtcnn mtcnn("../models", lnet);
-  Mat im = imread("../../sample.jpg");
+  Mat im = imread("../sample.jpg");
   ncnn::Mat image = ncnn::Mat::from_pixels(im.data, ncnn::Mat::PIXEL_BGR2RGB, im.cols, im.rows);
   clock_t begin = clock();
   for (int i = 0; i < ntimes; i++)
