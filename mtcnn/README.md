@@ -23,11 +23,13 @@ caffe2ncnn.exe xx.prototxt xx.caffemodel xx.param xx.bin
 
 ## 编译 MTCNN
 
-- 双击 tools 下的 buildVS2017.bat 脚本在 VS2017 下生成 mtcnn.sln 工程;
+- 双击 tools 下的 mtcnn.bat 脚本在 build 下生成 mtcnn.sln 工程;
 - 使用 VS2017 打开 mtcnn.sln 工程，右键 `mtcnn` 设为启动项目；
 - 快捷键 `Ctrl + F5` 快速生成 Release X64 版本并运行。
 
 附粗略实测结果：
+
+CPU 单核：Intel(R) Core(TM) i5-4590 @ 3.30GHz
 
   模式   |   时间
 :------: | :------:
