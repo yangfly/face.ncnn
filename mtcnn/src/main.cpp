@@ -34,16 +34,16 @@ string cpu_info()
 
 Mat imdraw(const Mat im, const vector<BBox> & bboxes)
 {
-	Mat canvas = im.clone();
-	for (const auto & bbox : bboxes) {
-		rectangle(canvas, Rect(bbox.x1, bbox.y1, bbox.x2-bbox.x1, bbox.y2-bbox.y1), Scalar(255, 0, 0), 2);
+  Mat canvas = im.clone();
+  for (const auto & bbox : bboxes) {
+    rectangle(canvas, Rect(bbox.x1, bbox.y1, bbox.x2-bbox.x1, bbox.y2-bbox.y1), Scalar(255, 0, 0), 2);
     for (int i = 0; i < 5; i++) {
       circle(canvas, Point((int)bbox.fpoints[i], (int)bbox.fpoints[i+5]), 5, Scalar(0, 255, 0), -1);
     }
-		putText(canvas, to_string(bbox.score), Point(bbox.x1, bbox.y1),
-			FONT_HERSHEY_SIMPLEX, 1.0, Scalar(0, 0, 255), 2, LINE_AA);
-	}
-	return canvas;
+    putText(canvas, to_string(bbox.score), Point(bbox.x1, bbox.y1),
+      FONT_HERSHEY_SIMPLEX, 1.0, Scalar(0, 0, 255), 2, LINE_AA);
+  }
+  return canvas;
 }
 
 void demo() {

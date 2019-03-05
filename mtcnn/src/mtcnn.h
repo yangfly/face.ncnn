@@ -33,21 +33,21 @@ class BBoxReg {
 class Mtcnn
 {
 public:
-	/// @brief Constructor.
+  /// @brief Constructor.
   /// @brief Lnet: whether to load Lnet.
-	Mtcnn(const std::string & model_dir, bool Lnet = true);
+  Mtcnn(const std::string & model_dir, bool Lnet = true);
   ~Mtcnn();
-	/// @brief Detect faces from image
-	std::vector<BBox> Detect(const ncnn::Mat & image);
+  /// @brief Detect faces from image
+  std::vector<BBox> Detect(const ncnn::Mat & image);
   /// @brief Get facial points of detect face by O/Lnet
   BBox Landmark(const ncnn::Mat & image, BBox bbox = BBox());
 
-	// default settings
-	int face_min_size = 40;
+  // default settings
+  int face_min_size = 40;
   int face_max_size = 500;
-	float scale_factor = 0.709f;
-	float thresholds[3] = {0.8f, 0.9f, 0.9f};
-	bool precise_landmark = true;
+  float scale_factor = 0.709f;
+  float thresholds[3] = {0.8f, 0.9f, 0.9f};
+  bool precise_landmark = true;
 
 private:
   // Inter _BBox extend outer BBox with location regression offsets.
@@ -72,36 +72,36 @@ private:
   };
 
   enum NMS_TYPE {
-		IoM,	// Intersection over Union
-		IoU		// Intersection over Minimum
-	};
+    IoM,	// Intersection over Union
+    IoU		// Intersection over Minimum
+  };
 
-	// networks
+  // networks
   ncnn::Net Pnet, Rnet, Onet, Lnet;
   bool lnet;
 
-	/// @brief Create scale pyramid: down order
-	std::vector<float> ScalePyramid(const int min_len);
-	/// @brief Get bboxes from maps of confidences and regressions.
-	std::vector<_BBox> GetCandidates(const float scale,
+  /// @brief Create scale pyramid: down order
+  std::vector<float> ScalePyramid(const int min_len);
+  /// @brief Get bboxes from maps of confidences and regressions.
+  std::vector<_BBox> GetCandidates(const float scale,
     const ncnn::Mat & conf_blob, const ncnn::Mat & loc_blob);
-	/// @brief Non Maximum Supression with type 'IoU' or 'IoM'.
-	void NonMaximumSuppression(std::vector<_BBox> & _bboxes,
-		const float threshold, const NMS_TYPE type);
-	/// @brief Refine bounding box with regression
+  /// @brief Non Maximum Supression with type 'IoU' or 'IoM'.
+  void NonMaximumSuppression(std::vector<_BBox> & _bboxes,
+    const float threshold, const NMS_TYPE type);
+  /// @brief Refine bounding box with regression
   /// @optional param square: where expand bbox to square.
-	void BoxRegression(std::vector<_BBox> & _bboxes, bool square);
+  void BoxRegression(std::vector<_BBox> & _bboxes, bool square);
   /// @brief Crop proposals with padding 0.
   ncnn::Mat PadCrop(const ncnn::Mat & image, int x1, int y1, int x2, int y2);
 
-	/// @brief Stage 1: Pnet get proposal bounding boxes
+  /// @brief Stage 1: Pnet get proposal bounding boxes
   std::vector<_BBox> ProposalNetwork(const ncnn::Mat & image);
-	/// @brief Stage 2: Rnet refine and reject proposals
-	void RefineNetwork(const ncnn::Mat & image, std::vector<_BBox> & _bboxes);
-	/// @brief Stage 3: Onet refine and reject proposals and regress facial landmarks.
+  /// @brief Stage 2: Rnet refine and reject proposals
+  void RefineNetwork(const ncnn::Mat & image, std::vector<_BBox> & _bboxes);
+  /// @brief Stage 3: Onet refine and reject proposals and regress facial landmarks.
   void OutputNetwork(const ncnn::Mat & image, std::vector<_BBox> & _bboxes);
-	/// @brief Stage 4: Lnet refine facial landmarks
-	void LandmarkNetwork(const ncnn::Mat & image, std::vector<_BBox> & _bboxes);
+  /// @brief Stage 4: Lnet refine facial landmarks
+  void LandmarkNetwork(const ncnn::Mat & image, std::vector<_BBox> & _bboxes);
 };	// class MTCNN
 
 } // namespace face
