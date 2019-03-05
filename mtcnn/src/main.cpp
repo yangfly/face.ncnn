@@ -49,7 +49,7 @@ Mat imdraw(const Mat im, const vector<BBox> & bboxes)
 void demo() {
   Mtcnn mtcnn("../models");
   Mat im = imread("../sample.jpg");
-  ncnn::Mat image = ncnn::Mat::from_pixels(im.data, ncnn::Mat::PIXEL_BGR2RGB, im.cols, im.rows);
+  ncnn::Mat image = ncnn::Mat::from_pixels(im.data, ncnn::Mat::PIXEL_BGR, im.cols, im.rows);
   vector<BBox> bboxes = mtcnn.Detect(image);
   Mat canvas = imdraw(im, bboxes);
   imshow("mtcnn face detector", canvas);
@@ -59,7 +59,7 @@ void demo() {
 void performance(bool lnet = true, int ntimes = 50) {
   Mtcnn mtcnn("../models", lnet);
   Mat im = imread("../sample.jpg");
-  ncnn::Mat image = ncnn::Mat::from_pixels(im.data, ncnn::Mat::PIXEL_BGR2RGB, im.cols, im.rows);
+  ncnn::Mat image = ncnn::Mat::from_pixels(im.data, ncnn::Mat::PIXEL_BGR, im.cols, im.rows);
   clock_t begin = clock();
   for (int i = 0; i < ntimes; i++)
     mtcnn.Detect(image);
@@ -73,9 +73,40 @@ void performance(bool lnet = true, int ntimes = 50) {
   cout << "detect time: " << (double)(end - begin) / ntimes << " ms" << endl;
 }
 
+#include <fstream>
+void fddb_detect(const string name = "mtcnn") {
+  Mtcnn mtcnn("../models", false);
+  mtcnn.thresholds[0] = 0.6;
+  mtcnn.thresholds[1] = 0.7;
+  mtcnn.thresholds[2] = 0.7;
+  mtcnn.face_min_size = 20;
+  mtcnn.face_max_size = 2000;
+  string fddb_root = "D:/vcodes/win-ncnn/FDDB";
+  string img_root = fddb_root + "/images/";
+  ifstream img_list(fddb_root + "/imList.txt");
+  ofstream dets(fddb_root + "/dets/" + name + ".txt");
+  string line;
+  int cnt = 0;
+  while (getline(img_list, line)) {
+    cnt += 1;
+    cout << cnt << ": " << line << endl;
+    Mat im = imread(img_root + line + ".jpg");
+    ncnn::Mat image = ncnn::Mat::from_pixels(im.data, ncnn::Mat::PIXEL_BGR, im.cols, im.rows);
+    vector<BBox> bboxes = mtcnn.Detect(image);
+    dets << line << endl;
+    dets << bboxes.size() << endl;
+    for (auto & bbox : bboxes) {
+      dets << bbox.x1 << " " << bbox.y1 << " ";
+      dets << bbox.x2 - bbox.x1 << " " << bbox.y2 - bbox.y1 << " ";
+      dets << bbox.score << endl;
+    }
+  }
+}
+
 int main() {
-  performance(true);
-  performance(false);
+  //performance(true);
+  //performance(false);
+  //fddb_detect();
   demo();
   return 0;
 }
